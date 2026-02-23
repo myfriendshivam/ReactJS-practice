@@ -1,6 +1,6 @@
 import React from 'react'
 import {useDispatch} from 'react-redux'
-import authService from '../../store/authSlice'
+import authService from '../../appwrite/auth'
 import { logout } from '../../store/authSlice'
 
 function LogoutBtn() {
@@ -11,7 +11,7 @@ function LogoutBtn() {
         })
     }
   return (
-    <button className='iniline-back px-6 py-2 duration-200 hover:bg-blue-100 rounded-full'>LogOut</button>
+    <button className='iniline-back px-6 py-2 duration-200 hover:bg-blue-100 rounded-full' onClick={logoutHandler}>LogOut</button>
   )
 }
 
