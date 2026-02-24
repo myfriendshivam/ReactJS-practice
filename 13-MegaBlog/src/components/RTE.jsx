@@ -1,23 +1,24 @@
 import React from 'react'
-import {Editor} from '@tinymce/tinymce-react';
-import {Controller} from 'react-hook-form'
+import { Editor } from '@tinymce/tinymce-react';
+import { Controller } from 'react-hook-form'
 
-export default function RTE({name, control, label, defaultvalue=""}) {
+export default function RTE({ name, control, label, defaultvalue = "" }) {
   return (
     <div className='w-full'>
-        {label && <label className='iniline-block mb-1 pl-1'>{label}</label>}
+      {label && <label className='iniline-block mb-1 pl-1'>{label}</label>}
 
-        <Controller
+      <Controller
         name={name || "content"}
         control={control}
-        render={({field: {onChange}})=> (
-            <Editor
-            initialValue={defaultvalue}
+        render={({ field: { onChange } }) => (
+          <Editor
+          initialValue={defaultvalue}
+          apiKey='wy2xgnhfkknqoiuvibnfwknzdt2wxih17eu00cde0omnhvdh'
             init={{
-                initialValue: defaultvalue,
-                height: 500,
-                menubar: true,
-                 plugins: [
+              initialValue: defaultvalue,
+              height: 500,
+              menubar: true,
+              plugins: [
                 "image",
                 "advlist",
                 "autolink",
@@ -38,17 +39,26 @@ export default function RTE({name, control, label, defaultvalue=""}) {
                 "help",
                 "wordcount",
                 "anchor",
-            ],
-            toolbar:
-            "undo redo | blocks | image | bold italic forecolor | alignleft aligncenter bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent |removeformat | help",
-            content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }"
+              ],
+              toolbar:
+                "undo redo | blocks | image | bold italic forecolor | alignleft aligncenter bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent |removeformat | help",
+              content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+
+              tinycomments_mode: 'embedded',
+              tinycomments_author: 'Author name',
+              mergetags_list: [
+                { value: 'First.Name', title: 'First Name' },
+                { value: 'Email', title: 'Email' },
+              ],
+              ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+              uploadcare_public_key: '400085cabc8825547181',
+
             }}
             onEditorChange={onChange}
-            />
+          />
         )}
-        />
+      />
     </div>
   )
 }
 
- 

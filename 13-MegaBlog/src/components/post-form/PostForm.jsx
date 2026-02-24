@@ -10,47 +10,47 @@ function PostForm({ post }) {
     const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
         defaultValues: {
             title: post?.title || '',
-            slug: post?.slug || '',
+            slug: post?.$id || '',
             content: post?.content || '',
             status: post?.status || 'active',
         },
     })
 
-    const navigate = useNavigate()
-    const userData = useSelector(state => state.user.userData)
+    const navigate = useNavigate();
+    const userData = useSelector((state) => state.auth.userData);
 
     const submit = async (data) => {
         if (post) {
-            const file = data.image[0] ? appwriteService.uploadFile(data.image[0]) : null
+            const file = data?.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
 
             if (file) {
-                appwriteService.deleteFile(post.featuredImage)
+                await appwriteService.deleteFile(post.featuredImage);
             }
             const dbPost = await appwriteService.updatePost(post.$id, {
                 ...data,
-                featuredImage: file ? file.$id : undefined,
-            })
+                featuredImage: file ? file.$id : post.featuredImage,
+            });
             if (dbPost) {
-                navigate(`/post/${dbPost.$id}`)
+                navigate(`/post/${dbPost.$id}`);
             }
         } else {
             // Todo: check the functionality -> data.image[0] ? appwriteService.uploadFile(data.image[0]) : null
             const file = await appwriteService.uploadFile(data.image[0]);
 
             if (file) {
-                const fileId = file.$id
-                data.featuredImage = fileId
+                const fileId = file.$id;
+                data.featuredImage = fileId;
                 const dbPost = await appwriteService.createPost({
                     ...data,
-                    userId: userData.$id,
-                })
+                    userId: userData.$id
+                });
 
                 if (dbPost) {
                     navigate(`/post/${dbPost.$id}`)
                 }
             }
         }
-    }
+    };
 
     
     const slugTransform = useCallback((value) => {
@@ -60,24 +60,23 @@ function PostForm({ post }) {
             .replace(/^[a-zA-Z\d\s]+/g, '-')
             .replace(/\s/g, '-')
 
-        return ''
+        return '';
         
-    }, [])
+    }, []);
 
     React.useEffect(() => {
         const subscription = watch((value, {name}) => {
             if(name === 'title'){
-                setValue('slug', slugTransform(value.title,
-                    {shouldValidate: true}))
+                setValue('slug', slugTransform(value.title), {shouldValidate: true});
             }
-        })
+        });
 
         return () => {
             // unsubscribe method work like if any function call then not keep rotating in itself and gets called again  and again
-            subscription.unsubscribe()  
+            subscription.unsubscribe();
         }
 
-    }, [watch, slugTransform, setValue])
+    }, [watch, slugTransform, setValue]);
 
     return (
         <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">

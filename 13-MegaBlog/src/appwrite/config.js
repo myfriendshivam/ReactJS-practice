@@ -1,4 +1,4 @@
-import conf from "../conf/conf";
+import conf from "../conf/conf.js";
 import { Client, ID, Databases, Storage, Query } from "appwrite";
 
 export class Service {
@@ -8,8 +8,8 @@ export class Service {
 
     constructor() {
         this.client
-            .setEndpoint(conf.appwiteUrl)
-            .setProject(conf.appwiteProjectId);
+            .setEndpoint(conf.appwriteUrl)
+            .setProject(conf.appwriteProjectId);
         this.databases = new Databases(this.client);
         this.bucket = new Storage(this.client);
     }
@@ -17,8 +17,8 @@ export class Service {
     async createPost({ title, slug, content, featuredImage, status, userId }) {
         try {
             return await this.databases.createDocument(
-                conf.appwiteDatabaseId,
-                conf.appwiteCollectionId,
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
                 slug,
                 {
                     title,
@@ -30,14 +30,15 @@ export class Service {
             )
         } catch (error) {
             console.log("Appwrite service :: createPost :: error", error);
+            return null;
         }
     }
 
     async updatePost(slug, { title, content, featuredImage, status }) {
         try {
             return await this.databases.updateDocument(
-                conf.appwiteDatabaseId,
-                conf.appwiteCollectionId,
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
                 slug,
                 {
                     title,
@@ -48,14 +49,15 @@ export class Service {
             )
         } catch (error) {
             console.log("Appwrite service :: updatePost :: error", error);
+            return null;
         }
     }
 
     async deletePost(slug) {
         try {
             return await this.databases.deleteDocument(
-                conf.appwiteDatabaseId,
-                conf.appwiteCollectionId,
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
                 slug
             )
             return true;
@@ -68,26 +70,26 @@ export class Service {
     async getPost(slug) {
         try {
             return await this.databases.getDocument(
-                conf.appwiteDatabaseId,
-                conf.appwiteCollectionId,
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
                 slug
             )
         } catch (error) {
-            console.log("Appwrite service :: getePost :: error", error);
-            return false;
+            console.log("Appwrite service :: getPost :: error", error);
+            return null;
         }
     }
 
     async getPosts(queries = [Query.equal("status", "active")]) {
         try {
             return await this.databases.listDocuments(
-                conf.appwiteDatabaseId,
-                conf.appwiteCollectionId,
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
                 queries,
             )
         } catch (error) {
             console.log("Appwrite serive :: getPosts :: error", error);
-            return false;
+            return null;
         }
     }
 
@@ -95,23 +97,23 @@ export class Service {
     async uploadFile(file) {
         try {
             return await this.bucket.createFile(
-                conf.appwiteBucketId,
+                conf.appwriteBucketId,
                 ID.unique(),
                 file
             )
         } catch (error) {
             console.log("Appwrite serive :: uploadFile :: error", error);
-            return false;
+            return null;
         }
     }
 
     async deleteFile(fileId) {
         try {
             return await this.bucket.deleteFile(
-                conf.appwiteBucketId,
+                conf.appwriteBucketId,
                 fileId
             )
-            return true
+            return true;
         } catch (error) {
             console.log("Appwrite serive :: deleteFile :: error", error);
             return false;
@@ -120,7 +122,7 @@ export class Service {
 
     getFilePreview(fileId){
         return this.bucket.getFilePreview(
-            conf.appwiteBucketId,
+            conf.appwriteBucketId,
             fileId
         )
     }
@@ -128,5 +130,5 @@ export class Service {
     
 }
 
-const service = new Service()
-export default service
+const service = new Service();
+export default service;
