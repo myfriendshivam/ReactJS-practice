@@ -55,7 +55,7 @@ export class Service {
 
     async deletePost(slug) {
         try {
-            return await this.databases.deleteDocument(
+            await this.databases.deleteDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 slug
@@ -76,7 +76,7 @@ export class Service {
             )
         } catch (error) {
             console.log("Appwrite service :: getPost :: error", error);
-            return null;
+            return false;
         }
     }
 
@@ -89,7 +89,7 @@ export class Service {
             )
         } catch (error) {
             console.log("Appwrite serive :: getPosts :: error", error);
-            return null;
+            return false;
         }
     }
 
@@ -109,7 +109,7 @@ export class Service {
 
     async deleteFile(fileId) {
         try {
-            return await this.bucket.deleteFile(
+            await this.bucket.deleteFile(
                 conf.appwriteBucketId,
                 fileId
             )

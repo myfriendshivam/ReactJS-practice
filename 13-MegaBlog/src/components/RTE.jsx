@@ -19,7 +19,7 @@ export default function RTE({ name, control, label, defaultvalue = "" }) {
               height: 500,
               menubar: true,
               plugins: [
-                "image",
+                "image", 
                 "advlist",
                 "autolink",
                 "lists",
@@ -50,8 +50,7 @@ export default function RTE({ name, control, label, defaultvalue = "" }) {
                 { value: 'First.Name', title: 'First Name' },
                 { value: 'Email', title: 'Email' },
               ],
-              ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
-              uploadcare_public_key: '400085cabc8825547181',
+              
 
             }}
             onEditorChange={onChange}
