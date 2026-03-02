@@ -1,3 +1,14 @@
+//   conditional rendering
+//   true -> box
+//   false -> box
+//  if loading return <Loading/>
+//  return <Dashboard/>
+
+//  isLogin && (<Welcome/>) -> 0
+
+//  isLogin ? (<Welcome/>) : (<Login/>) -> NaN
+
+
 import React, { useState } from 'react'
 
 function App() {
