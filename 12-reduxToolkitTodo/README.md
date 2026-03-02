@@ -1,3 +1,7 @@
+# Redux- Toolkit (RTK)
+
+<img width="1366" height="850" alt="context api" src="./src/assets/redux-toolkit.webp" />
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
